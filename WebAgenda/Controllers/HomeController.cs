@@ -37,6 +37,7 @@ namespace WebAgenda.Controllers
 
                 if (resposta == 1)
                 {
+                    // Falta carregar os dados do usuario
                     return RedirectToAction("Index");
                 }
                 else

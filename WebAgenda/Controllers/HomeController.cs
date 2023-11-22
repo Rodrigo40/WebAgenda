@@ -20,20 +20,24 @@ namespace WebAgenda.Controllers
         }
         public IActionResult Login(string email, string password)
         {
+            UsuarioEntity entity = new UsuarioEntity();
+            UsuarioModel user = new UsuarioModel();
             int resposta = 0;
 
-            if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(email) && string.IsNullOrEmpty(password))
             {
-                UsuarioEntity entity = new UsuarioEntity();
+                ViewBag.erro = "Usuario ou senha inválidos!";
+            }
+            else
+            {
                 entity.Email = email;
                 entity.Password = password;
 
-                UsuarioModel user = new UsuarioModel();
                 resposta = user.Login(entity);
 
-                if (resposta != 0)
+                if (resposta == 1)
                 {
-                    return View("Home");
+                    return RedirectToAction("Index");
                 }
             }
             return View();

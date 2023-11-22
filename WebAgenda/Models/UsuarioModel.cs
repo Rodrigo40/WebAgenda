@@ -6,42 +6,38 @@ namespace WebAgenda.Models
 {
     public class UsuarioModel
     {
-        private MySqlConnection con = null;
-        private MySqlCommand cmd = null; // Comando para o banco de dados
-        Conexao conex = new Conexao();
+        //private MySqlConnection con = null;
+        //private MySqlCommand cmd = null; // Comando para o banco de dados
 
         public int Login(UsuarioEntity user)
         {
+            Conexao conex = new Conexao();
             int resposta = 0;
             try
             {
-                con = new MySqlConnection();
+                MySqlConnection con = new MySqlConnection();
                 con.ConnectionString = conex.GetConnection();
                 con.Open();
 
-                cmd = new MySqlCommand();
+                MySqlCommand cmd = new MySqlCommand();
                 cmd.Connection = con;
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = $"Select * from usuario where email='{user.Email}' and password='{user.Password}'"; // Consulta Sql
 
-                if (cmd.ExecuteNonQuery() == 1)
+                MySqlDataReader adapter = cmd.ExecuteReader();
+                
+                if (adapter.HasRows)
+                {
                     resposta = 1;
+                }                  
                 else
                     resposta = 0;
             }
             catch (Exception)
             {
-                con = null;
-                cmd = null;
+
             }
-            finally
-            {
-                if (con != null) 
-                {
-                    con.Dispose();
-                    cmd.Dispose();
-                }
-            }
+
             return resposta;
         }
     }

@@ -26,7 +26,7 @@ namespace WebAgenda.Controllers
 
             if (string.IsNullOrEmpty(email) && string.IsNullOrEmpty(password))
             {
-                ViewBag.erro = "Usuario ou senha inválidos!";
+                ViewBag.erro = "Todos os campos são obrigatórios!";
             }
             else
             {
@@ -38,6 +38,10 @@ namespace WebAgenda.Controllers
                 if (resposta == 1)
                 {
                     return RedirectToAction("Index");
+                }
+                else
+                {
+                    ViewBag.erro = "Usuario ou senha inválidos!";
                 }
             }
             return View();

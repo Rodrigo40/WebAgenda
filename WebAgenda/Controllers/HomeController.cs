@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using WebAgenda.Entity;
 using WebAgenda.Models;
 
 namespace WebAgenda.Controllers
@@ -17,7 +18,26 @@ namespace WebAgenda.Controllers
         {
             return View();
         }
+        public IActionResult Login(string email, string password)
+        {
+            int resposta = 0;
 
+            if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
+            {
+                UsuarioEntity entity = new UsuarioEntity();
+                entity.Email = email;
+                entity.Password = password;
+
+                UsuarioModel user = new UsuarioModel();
+                resposta = user.Login(entity);
+
+                if (resposta != 0)
+                {
+                    return View("Home");
+                }
+            }
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();

@@ -15,16 +15,32 @@ namespace WebAgenda.Models
             int resposta = 0;
             try
             {
+                con = new MySqlConnection();
                 con.ConnectionString = conex.GetConnection();
                 con.Open();
 
+                cmd = new MySqlCommand();
                 cmd.Connection = con;
                 cmd.CommandType = CommandType.Text;
+                cmd.CommandText = $"Select * from usuario where email='{user.Email}' and password='{user.Password}'"; // Consulta Sql
 
+                if (cmd.ExecuteNonQuery() == 1)
+                    resposta = 1;
+                else
+                    resposta = 0;
             }
             catch (Exception)
             {
-
+                con = null;
+                cmd = null;
+            }
+            finally
+            {
+                if (con != null) 
+                {
+                    con.Dispose();
+                    cmd.Dispose();
+                }
             }
             return resposta;
         }

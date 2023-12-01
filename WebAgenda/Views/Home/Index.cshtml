@@ -1,8 +1,47 @@
-﻿@{
+﻿@using WebAgenda.Entity;
+@{
     ViewData["Title"] = "Home Page";
 }
+@model TarefasModel
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4" style="font-size:20px">Bem vindo @UsuarioEntity.GetInstancia().Nome</h1>
+</div>
+<br />
+<br />
+<br />
+
+<div class="alert alert-primary" style="background-color:#2582C5" role="alert">
+    <h2 style="color:white;font-size:25px;text-align:center">Minhas Tarefas!</h2>
+</div> 
+
+<table class="table">
+    <thead>
+        <tr>
+            <td>Id</td>
+            <td>Titulo</td>
+            <td>Tarefa</td>
+            <td>Data Tarefa</td>
+        </tr>
+    </thead>
+
+    <tbody>
+        @{
+            foreach (var item in Model.ListarTarefas())
+            {
+                <tr>
+                    <th>@item.Id</th>
+                    <th>@item.Titulo</th>
+                    <th>@item.Tarefa</th>
+                    <th>@item.Data_Tarefa</th>
+                </tr>
+            }
+        }
+       
+    </tbody>
+</table>
+<br />
+<br />
+<div class="text-start">
+    <a href="#" class="btn btn-primary">Nova tarefa</a>
 </div>

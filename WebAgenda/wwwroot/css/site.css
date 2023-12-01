@@ -16,3 +16,7 @@ html {
 body {
   margin-bottom: 60px;
 }
+.imagem {
+    background-image: url('../imagem/pexels-realtoughcandycom-11035396.jpg');
+    margin: 0;
+}

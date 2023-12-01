@@ -16,6 +16,18 @@ namespace WebAgenda.Controllers
 
         public IActionResult Index()
         {
+            try
+            {
+                var listaTerefa = new TarefasModel();
+                if (listaTerefa.ListarTarefas() != null)
+                {
+                    return View(listaTerefa);
+                }
+            }
+            catch (Exception)
+            {
+
+            }
             return View();
         }
         public IActionResult Login(string email, string password)
@@ -34,6 +46,7 @@ namespace WebAgenda.Controllers
                 entity.Password = password;
 
                 resposta = user.Login(entity);
+                UsuarioEntity.GetInstancia().Nome = user.GetUsuarios()[0].Nome;
 
                 if (resposta == 1)
                 {

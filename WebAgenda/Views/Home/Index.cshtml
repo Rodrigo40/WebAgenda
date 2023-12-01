@@ -13,7 +13,7 @@
 
 <div class="alert alert-primary" style="background-color:#2582C5" role="alert">
     <h2 style="color:white;font-size:25px;text-align:center">Minhas Tarefas!</h2>
-</div> 
+</div>
 
 <table class="table">
     <thead>
@@ -22,6 +22,7 @@
             <td>Titulo</td>
             <td>Tarefa</td>
             <td>Data Tarefa</td>
+            <td>Açôes</td>
         </tr>
     </thead>
 
@@ -34,14 +35,19 @@
                     <th>@item.Titulo</th>
                     <th>@item.Tarefa</th>
                     <th>@item.Data_Tarefa</th>
+                    <th>
+                        <a href="#" class="btn btn-primary" style="background-color:#116097">Editar</a>
+                        <a href="#" class="btn btn-primary" style="background-color:#B01415">Eliminar</a>
+                        <a href="#" class="btn btn-primary" style="background-color:#59A62B">Concluida</a>
+                    </th>
                 </tr>
             }
         }
-       
+
     </tbody>
 </table>
 <br />
 <br />
 <div class="text-start">
-    <a href="#" class="btn btn-primary">Nova tarefa</a>
+    <a asp-area="" asp-action="NovaTarefa" class="btn btn-primary">Nova tarefa</a>
 </div>

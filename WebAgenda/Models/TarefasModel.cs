@@ -48,5 +48,39 @@ namespace WebAgenda.Models
 
             return tarefas;
         }
+        public string NovaTarefa(string titulo, string tarefa, string dataTarefa)
+        {
+            string resposta = string.Empty;
+            MySqlConnection con = new MySqlConnection();
+            MySqlCommand cmd = new MySqlCommand();
+            Conexao conx = new Conexao();
+
+            try
+            {
+                con.ConnectionString = conx.GetConnection();
+                con.Open();
+
+                cmd.Connection = con;
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = $"INSERT INTO tarefas(titulo,tarefa,data_tarefa)VALUES('{titulo}','{tarefa}','{dataTarefa}');";
+
+                MySqlDataReader rd = cmd.ExecuteReader();
+                if (rd.HasRows)
+                {
+                    resposta = "A tarefa foi registrada!";
+                }
+                else
+                {
+                    resposta = "Erro ao registrar tarefa!";
+                }
+
+            }
+            catch (Exception)
+            {
+
+            }
+
+            return resposta;
+        }
     }
 }

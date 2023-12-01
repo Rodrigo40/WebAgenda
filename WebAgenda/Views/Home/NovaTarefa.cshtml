@@ -1,0 +1,27 @@
+﻿<div class="alert alert-primary" style="background-color:#2582C5">
+    <h1 class="text-center" style="color:white">Nova Tarefa</h1>
+</div>
+
+<div class="text-center">
+    <form method="post">
+        <input name="titulo" type="text" class="form-group" placeholder="Titulo" style="width:200px" />
+        <br />
+        <br />
+        <input name="tarefa" type="text" class="form-group" placeholder="Tarefa" style="width:200px" />
+        <br />
+        <br />
+        <input name="dataTarefa" type="date" class="form-group" placeholder="Data Tarefa" style="width:200px" />
+       
+        <br />
+        <br />
+        @{
+            if (ViewBag.erro != null)
+            {
+                <p class="text-center" style="color:darkred">@ViewBag.erro</p>
+            }
+        }
+        <br />
+        <input type="submit" asp-area="" asp-action="NovaTarefa" class="btn btn-primary" style="width:98px;height:40px;"/>
+        <a asp-area="" asp-action="Index" class="btn btn-danger" style="width:98px;height:40px">Cancelar</a>
+    </form>
+</div>

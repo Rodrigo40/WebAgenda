@@ -70,5 +70,29 @@ namespace WebAgenda.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        // Ações para as Tarefas
+        public IActionResult NovaTarefa(string titulo, string tarefa, string dataTarefa)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(titulo) && string.IsNullOrWhiteSpace(tarefa) && string.IsNullOrWhiteSpace(dataTarefa))
+                {
+                    ViewBag.erro = "Os campos são obrigatórios!";
+                }
+                else
+                {
+                    var listaTerefa = new TarefasModel();
+                    var novaTarefa = new TarefasModel();
+                    ViewBag.ok = novaTarefa.NovaTarefa(titulo, tarefa, dataTarefa);
+                    return View("Index",listaTerefa);
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+            return View();
+        }
+        // Fim
     }
 }

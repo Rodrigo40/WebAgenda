@@ -1,0 +1,30 @@
+﻿@using WebAgenda.Entity;
+@model TarefasEntity
+
+@{
+    ViewData["Title"] = "Editar Tarefa";
+}
+
+<div class="alert alert-primary" style="background-color:#2582C5">
+    <h1 class="text-center" style="color:white">Editar Tarefa</h1>
+</div>
+
+<div class="text-center">
+    <form method="post">
+        <input name="titulo" type="text" class="form-group" placeholder="Titulo" style="width:200px" value="@Model.ListaTarefas[0].Titulo" required="required" />
+        <br />
+        <br />
+        <input name="tarefa" type="text" class="form-group" placeholder="Tarefa" style="width:200px" value="@Model.ListaTarefas[0].Tarefa" required="required" />
+        <br />
+        <br />
+        <input name="dataTarefa" type="date" class="form-group" placeholder="Data Tarefa" style="width:200px" value="@Model.ListaTarefas[0].Data_Tarefa" required="required" />
+        <input hidden="hidden" name="id" type="text" class="form-group" style="width:200px" value="@Model.ListaTarefas[0].Id" />
+
+        <br />
+        <br />
+  
+        <br />
+        <input type="submit" asp-area="" asp-action="Salvar" class="btn btn-primary" style="width:98px;height:40px;" />
+        <a asp-area="" asp-action="Index" class="btn btn-danger" style="width:98px;height:40px">Cancelar</a>
+    </form>
+</div>

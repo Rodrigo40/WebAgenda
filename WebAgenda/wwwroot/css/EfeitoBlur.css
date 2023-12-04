@@ -1,0 +1,23 @@
+﻿.content {
+    /* this is needed or the background will be offset by a few pixels at the top */
+    overflow: auto;
+    position: relative;
+}
+
+    .content::before {
+        content: "";
+        position: fixed;
+        left: 0;
+        right: 0;
+        z-index: -1;
+        display: block;
+        background-image: url('https://i.stack.imgur.com/CjzQS.jpg');
+        background-size: cover;
+        width: 100%;
+        height: 100%;
+        -webkit-filter: blur(5px);
+        -moz-filter: blur(5px);
+        -o-filter: blur(5px);
+        -ms-filter: blur(5px);
+        filter: blur(5px);
+    }

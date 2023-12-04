@@ -18,10 +18,17 @@ namespace WebAgenda.Controllers
         {
             try
             {
-                var listaTerefa = new TarefasModel();
-                if (listaTerefa.ListarTarefas() != null)
+                if (UsuarioEntity.GetInstancia().Nome != string.Empty)
                 {
-                    return View(listaTerefa);
+                    var listaTerefa = new TarefasModel();
+                    if (listaTerefa.ListarTarefas() != null)
+                    {
+                        return View(listaTerefa);
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Login");
                 }
             }
             catch (Exception)
@@ -32,6 +39,7 @@ namespace WebAgenda.Controllers
         }
         public IActionResult Login(string email, string password)
         {
+            UsuarioEntity.GetInstancia().Nome = string.Empty;
             UsuarioEntity entity = new UsuarioEntity();
             UsuarioModel user = new UsuarioModel();
             int resposta = 0;
@@ -51,6 +59,7 @@ namespace WebAgenda.Controllers
                 if (resposta == 1)
                 {
                     // Falta carregar os dados do usuario
+                    TempData["SuccessMessage"] = "Bem vindo, é sempre bom ve-ló!";
                     return RedirectToAction("Index");
                 }
                 else
@@ -64,6 +73,11 @@ namespace WebAgenda.Controllers
         {
             return View();
         }
+        public IActionResult Logout()
+        {
+            UsuarioEntity.GetInstancia().Nome = string.Empty;
+            return RedirectToAction("Login");
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -75,23 +89,61 @@ namespace WebAgenda.Controllers
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(titulo) && string.IsNullOrWhiteSpace(tarefa) && string.IsNullOrWhiteSpace(dataTarefa))
+                if (UsuarioEntity.GetInstancia().Nome != string.Empty)
                 {
-                    ViewBag.erro = "Os campos são obrigatórios!";
+                    if (string.IsNullOrWhiteSpace(titulo) && string.IsNullOrWhiteSpace(tarefa) && string.IsNullOrWhiteSpace(dataTarefa))
+                    {
+                        ViewBag.erro = "";
+                    }
+                    else
+                    {
+                        var listaTerefa = new TarefasModel();
+                        var novaTarefa = new TarefasModel();
+                        ViewBag.ok = novaTarefa.NovaTarefa(titulo, tarefa, dataTarefa);
+                        TempData["SuccessMessage"] = ViewBag.ok;
+                        return View("Index", listaTerefa);
+                    }
                 }
                 else
                 {
-                    var listaTerefa = new TarefasModel();
-                    var novaTarefa = new TarefasModel();
-                    ViewBag.ok = novaTarefa.NovaTarefa(titulo, tarefa, dataTarefa);
-                    return View("Index",listaTerefa);
+                    return RedirectToAction("Login");
                 }
+
             }
             catch (Exception)
             {
 
             }
             return View();
+        }
+        public IActionResult EditarTarefas(int id)
+        {
+            try
+            {
+                var entidade = new TarefasEntity();
+                var tarefa = new TarefasModel();
+                entidade.ListaTarefas = tarefa.ListarTarefasById(id);
+                return View(entidade);
+            }
+            catch (Exception)
+            {
+
+            }
+            return View();
+        }
+        public IActionResult Salvar(int id, string titulo, string tarefa, string dataTarefa)
+        {
+            // Update data from Tarefas table
+            var update = new TarefasModel();
+            TempData["SuccessMessage"] = update.EditarTarefa(id, titulo, tarefa, dataTarefa);
+            return RedirectToAction("Index");
+        }
+        public IActionResult Eliminar(int id)
+        {
+            // Update data from Tarefas table
+            var eliminar = new TarefasModel();
+            TempData["SuccessMessage"] = eliminar.EliminarTarefa(id);
+            return RedirectToAction("Index");
         }
         // Fim
     }

@@ -38,8 +38,14 @@
                         <th>@item.Tarefa</th>
                         <th>@item.Data_Tarefa</th>
                         <th>
-                            <a href="#" class="btn btn-primary" style="background-color:#116097">Editar</a>
-                            <a href="#" class="btn btn-primary" style="background-color:#B01415">Eliminar</a>
+                            <a class="btn btn-primary" style="background-color:#116097" asp-area="" asp-action="EditarTarefas" asp-route-id="@item.Id">Editar</a>
+
+                            <a class="btn btn-danger delete" style="background-color:#B01415"
+                               data-id="@item.Id"
+                               data-controller="Home"
+                               data-action="Eliminar"
+                               data-body-message="Você quer eliminar esta tarefa?">Eliminar</a>
+
                             <a href="#" class="btn btn-primary" style="background-color:#59A62B">Concluida</a>
                         </th>
                     </tr>
@@ -55,7 +61,23 @@
     <a asp-area="" asp-action="NovaTarefa" class="btn btn-primary">Nova tarefa</a>
     <a id="printPDF" hidden="hidden" class="btn btn-primary">Imprimir</a>
 </div>
-@section scripts{
+@section Scripts{
+    <script type="text/javascript">
+        function openSucscessModal(mensagem) {
+            var mydiv = document.getElementById("modalAlertBody");
+            mydiv.innerHTML = mensagem;
+            $('#modalSuccess').modal('show');
+        }
+        $(document).ready(function () {
+            var sms = "@TempData["SuccessMessage"]";
+            if (sms)
+                openSucscessModal(sms);
+        });
+        $('#closemodal').click(function () {
+            $('#modalSuccess').modal('hide');
+        });
+    </script>
+@* @section scripts{
     <script>
         $("#printPDF").click(function () {
             var elemento = document.getElementById('conteudoPdf');
@@ -77,7 +99,8 @@
 
         });
     </script>
-}
+} *@
+    }
 <!-- Painel centralizado com sombra (ideia para formularios)
 <div class="rounded d-flex justify-content-center">
     <div class="col-md-4 col-sm-12 shadow-lg p-5 bg-light">

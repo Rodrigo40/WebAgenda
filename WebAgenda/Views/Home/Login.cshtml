@@ -32,3 +32,21 @@
         </div>
 
     </div>
+
+    @section Scripts{
+    <script type="text/javascript">
+        function openSucscessModal(mensagem) {
+            var mydiv = document.getElementById("modalAlertBody");
+            mydiv.innerHTML = mensagem;
+            $('#modalSuccess').modal('show');
+        }
+        $(document).ready(function () {
+            var sms = "@TempData["SuccessMessage"]";
+            if (sms)
+                openSucscessModal(sms);
+        });
+        $('#closemodal').click(function () {
+            $('#modalSuccess').modal('hide');
+        });
+    </script>
+    }

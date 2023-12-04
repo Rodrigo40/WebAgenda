@@ -75,6 +75,7 @@ namespace WebAgenda.Controllers
         }
         public IActionResult Logout()
         {
+            TempData["SuccessMessage"] = $"A sua sessão foi finalizada ({UsuarioEntity.GetInstancia().Nome})";
             UsuarioEntity.GetInstancia().Nome = string.Empty;
             return RedirectToAction("Login");
         }

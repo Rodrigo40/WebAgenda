@@ -7,7 +7,7 @@
 <div class="modal-dialog" role="document">
  <div class="modal-content">
  <div class="modal-header">
-<h4 class="modal-title" id="myModalLabel">Warning</h4>
+ <h4 class="modal-title" id="myModalLabel">Aviso!</h4>
  </div>
  <div class="modal-body delete-modal-body">
  

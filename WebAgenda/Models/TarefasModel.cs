@@ -34,6 +34,7 @@ namespace WebAgenda.Models
                         entity.Titulo = rd[1].ToString();
                         entity.Tarefa = rd[2].ToString();
                         entity.Data_Tarefa = rd[3].ToString();
+                        entity.Status = Convert.ToInt32(rd[4].ToString());
 
                         tarefas.Add(entity);
                     }
@@ -145,6 +146,39 @@ namespace WebAgenda.Models
                 else
                 {
                     resposta = "Erro ao atualizar tarefa!";
+                }
+
+            }
+            catch (Exception)
+            {
+
+            }
+
+            return resposta;
+        }
+        public string EditarStatus(int id, int status)
+        {
+            string resposta = string.Empty;
+            MySqlConnection con = new MySqlConnection();
+            MySqlCommand cmd = new MySqlCommand();
+            Conexao conx = new Conexao();
+
+            try
+            {
+                con.ConnectionString = conx.GetConnection();
+                con.Open();
+
+                cmd.Connection = con;
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = $"Update tarefas set status='{status}' where id='{id}';";
+
+                if (cmd.ExecuteNonQuery() == 1)
+                {
+                    resposta = "O Status da tarefa foi atualizado!";
+                }
+                else
+                {
+                    resposta = "Erro ao atualizar o status da tarefa!";
                 }
 
             }

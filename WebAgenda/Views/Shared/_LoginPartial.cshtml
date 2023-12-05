@@ -7,6 +7,9 @@
     @if (UsuarioEntity.GetInstancia().Nome != string.Empty)
     {
         <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-action="Usuario"><i class="zmdi zmdi-account"></i> Perfil</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Identity" asp-action="Logout"><i class="zmdi zmdi-lock"></i> Terminar sessão</a>
         </li>
     }

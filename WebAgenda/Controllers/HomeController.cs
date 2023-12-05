@@ -79,7 +79,38 @@ namespace WebAgenda.Controllers
             UsuarioEntity.GetInstancia().Nome = string.Empty;
             return RedirectToAction("Login");
         }
+        public IActionResult Usuario()
+        {
+            var usuario = new UsuarioModel();
+            return View(usuario);
+        }
+        public IActionResult EditarUsuario(int id)
+        {
+            if (id != 0)
+            {
+                var entidade = new UsuarioEntity();
+                var usuario = new UsuarioModel();
+                entidade.ListaUsuario = usuario.ListarUsuarios();
+                return View(entidade);
+            }
+            return View();
+        }
+        public IActionResult SalvarUsuario(int id, string nome, string email, string password)
+        {
+            if (id != 0)
+            {
+                var usuario = new UsuarioEntity();
+                var salvar = new UsuarioModel();
+                usuario.Id = id;
+                usuario.Nome = nome;
+                usuario.Email = email;
+                usuario.Password = password;
+                TempData["SuccessMessage"] = salvar.SalvarUsuario(usuario);
 
+                return RedirectToAction("Usuario");
+            }
+            return RedirectToAction("EditarUsuario");
+        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
@@ -144,6 +175,16 @@ namespace WebAgenda.Controllers
             // Update data from Tarefas table
             var eliminar = new TarefasModel();
             TempData["SuccessMessage"] = eliminar.EliminarTarefa(id);
+            return RedirectToAction("Index");
+        }
+        public IActionResult AtualizarStatusTarefa(int id)
+        {
+            if (id != 0)
+            {
+                var tarefa = new TarefasModel();
+                TempData["SuccessMessage"] = tarefa.EditarStatus(id, 1);
+                return RedirectToAction("Index");
+            }
             return RedirectToAction("Index");
         }
         // Fim

@@ -54,6 +54,43 @@ namespace WebAgenda.Models
 
             return resposta;
         }
+        public string SalvarUsuario(UsuarioEntity user)
+        {
+            // Instanciando a class de conexão string
+            Conexao conex = new Conexao();
+            string resposta = string.Empty;
+            try
+            {
+                //Instanciando a class de conexão do MySql
+                MySqlConnection con = new MySqlConnection();
+                //Definindo a conexão string
+                con.ConnectionString = conex.GetConnection();
+                //Abrindo a conexão com o servidor
+                con.Open();
+
+                //Instanciando a class de comando do MySql
+                MySqlCommand cmd = new MySqlCommand();
+                //Conectando o comando com a conexão
+                cmd.Connection = con;
+                //Definindo o tipo de comando a usar
+                cmd.CommandType = CommandType.Text;
+                //Definindo o comando de consulta sql
+                cmd.CommandText = $"update usuario set nome='{user.Nome}',email='{user.Email}',password='{user.Password}' where id='{user.Id}';"; // Consulta Sql
+
+                if (cmd.ExecuteNonQuery() == 1)
+                {
+                    resposta = "Usuario atualizado com sucesso";
+                }
+                else
+                    resposta = "Erro: usuario não atualizado!";
+            }
+            catch (Exception)
+            {
+
+            }
+
+            return resposta;
+        }
         public List<UsuarioEntity> GetUsuarios()
         {
             List<UsuarioEntity> ListaUsers = new List<UsuarioEntity>();
@@ -76,6 +113,56 @@ namespace WebAgenda.Models
                 cmd.CommandType = CommandType.Text;
                 //Definindo o comando de consulta sql
                 cmd.CommandText = $"Select * from usuario where email='{_entity.Email}' and password='{_entity.Password}'"; // Consulta Sql
+                //cmd.CommandText = "Login";
+                //cmd.Parameters.AddWithValue("email",user.Email);
+                //cmd.Parameters.AddWithValue("password",user.Password);
+                //Definindo o objeto MySqlDataReader para executar o comando
+                //E Ler a resposta ou seja: trará a resposta do comando
+                MySqlDataReader adapter = cmd.ExecuteReader();
+
+                //Verifinado se exitem linhas na resposta do comando
+                if (adapter.HasRows)
+                {
+                    while (adapter.Read())
+                    {
+                        UsuarioEntity entity = new UsuarioEntity();
+                        entity.Id = Convert.ToInt32(adapter["id"].ToString());
+                        entity.Nome = adapter["nome"].ToString();
+                        entity.Email = adapter["email"].ToString();
+                        ListaUsers.Add(entity);
+                    }
+                    adapter.Close();
+                }
+            }
+            catch (Exception)
+            {
+                con = null;
+                cmd = null;
+            }
+            return ListaUsers;
+        }
+        public List<UsuarioEntity> ListarUsuarios()
+        {
+            List<UsuarioEntity> ListaUsers = new List<UsuarioEntity>();
+            Conexao conex = new Conexao();
+            //Instanciando a class de conexão do MySql
+            MySqlConnection con = new MySqlConnection();
+            //Instanciando a class de comando do MySql
+            MySqlCommand cmd = new MySqlCommand();
+            try
+            {
+
+                //Definindo a conexão string
+                con.ConnectionString = conex.GetConnection();
+                //Abrindo a conexão com o servidor
+                con.Open();
+
+                //Conectando o comando com a conexão
+                cmd.Connection = con;
+                //Definindo o tipo de comando a usar
+                cmd.CommandType = CommandType.Text;
+                //Definindo o comando de consulta sql
+                cmd.CommandText = $"Select * from usuario;"; // Consulta Sql
                 //cmd.CommandText = "Login";
                 //cmd.Parameters.AddWithValue("email",user.Email);
                 //cmd.Parameters.AddWithValue("password",user.Password);
